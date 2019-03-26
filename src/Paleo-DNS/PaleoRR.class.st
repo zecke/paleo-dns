@@ -13,6 +13,11 @@ Class {
 	#category : #'Paleo-DNS-Records'
 }
 
+{ #category : #'as yet unclassified' }
+PaleoRR class >> classIN [
+	^16r0001
+]
+
 { #category : #initialization }
 PaleoRR >> initialize [
 	rr_class := rr_ttl := 0.
@@ -27,15 +32,68 @@ PaleoRR >> parseHeader: aReadStream [
 ]
 
 { #category : #'as yet unclassified' }
+PaleoRR >> parseLabel: aReadStream offset: anOffset [
+	"Parses one label of a domain name and returns it as string"
+	| oldPosition |
+	oldPosition := aReadStream position.
+	^[
+		aReadStream position: anOffset.
+		self parseName: aReadStream
+	] ensure: [ aReadStream position: oldPosition ].
+
+]
+
+{ #category : #'as yet unclassified' }
 PaleoRR >> parseName: aReadStream [
 	| len names |
 	len := 0.
 	names := OrderedCollection new.
 	[ len := aReadStream next. len > 0 ] whileTrue: [
-		names add: (aReadStream next: len) asString.
-		self flag: #todo. "Implement compression"
+		(len bitAnd: 16rC0) = 16rC0
+			ifTrue: [ 
+				| offset |
+				offset := ((len & 16r3F) bitShift: 8) | aReadStream next.
+				names add: (self parseLabel: aReadStream offset: offset).
+				^names joinUsing: '.' ]
+			ifFalse: [ names add: (aReadStream next: len) asString ].
 	].
-	^names joinUsing: '.'
+	^(names joinUsing: '.'), '.'
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_class [
+	^ rr_class
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_class: anInteger [ 
+	rr_class := anInteger
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_name [
+	^ rr_name
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_name: aString [ 
+	rr_name := aString
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_ttl [
+	^ rr_ttl
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_ttl: anInteger [ 
+	rr_ttl := anInteger
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> serialize [
+	^ByteArray streamContents: [:stream |
+		self serializeTo: stream]
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,4 +102,19 @@ PaleoRR >> serializeHeaderTo: aWriteStream [
 	aWriteStream uint16: self class rrType.
 	aWriteStream uint16: rr_class.
 	aWriteStream uint32: rr_ttl.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> serializeNameTo: aWriteStream [
+	rr_name ifNil: [
+		aWriteStream nextPut: 0.
+		^self].
+
+	self flag: #todo. "Header compression but then we need to keep a table."
+	(rr_name substrings: '.') do: [:label |
+		aWriteStream
+			nextPut: label size;
+			nextPutAll: label asByteArray.
+	].
+	aWriteStream nextPut: 0.
 ]

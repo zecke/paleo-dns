@@ -66,21 +66,6 @@ PaleoRROpt >> rr_name [
 ]
 
 { #category : #'as yet unclassified' }
-PaleoRROpt >> serialize [
-	^ByteArray streamContents: [:stream |
-		self serializeTo: stream]
-]
-
-{ #category : #'as yet unclassified' }
-PaleoRROpt >> serializeNameTo: aWriteStream [
-	self flag: #todo. "Split rr_name into parts"
-	rr_name ifNil: [
-		aWriteStream nextPut: 0.
-		^self].
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
 PaleoRROpt >> serializeOptionsTo: aWriteStream [ 
 	self flag: #todo. "Actually implement it..."
 	aWriteStream uint16: 0.

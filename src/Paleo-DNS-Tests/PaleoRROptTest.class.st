@@ -15,7 +15,7 @@ PaleoRROptTest >> test_decoding_success [
 
 	"Verify all of it has been consumed."
 	self assert: stream atEnd.
-	self assert: opt rr_name equals: ''.
+	self assert: opt rr_name equals: '.'.
 	self assert: opt udpPayloadSize equals: 4096.
 
 	self flag: #todo. "Check RCODE, Do flag, Options"
@@ -23,8 +23,7 @@ PaleoRROptTest >> test_decoding_success [
 
 { #category : #tests }
 PaleoRROptTest >> test_encoding_success [
-	| data stream |
-	stream := (ByteArray readHexFrom: '0000291000000000000000') readStream.
+	| data |
 	data := PaleoRROpt new
 				udpPayloadSize: 4096;
 				rcode: 0;
