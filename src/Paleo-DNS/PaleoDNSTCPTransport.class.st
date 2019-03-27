@@ -10,9 +10,14 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+PaleoDNSTCPTransport >> newSocketStream [
+	^ZdcSocketStream openConnectionToHost: destHost port: destPort timeout: timeout.
+]
+
+{ #category : #'as yet unclassified' }
 PaleoDNSTCPTransport >> query: aDnsQuery [
 	| socket |
-	socket := ZdcSocketStream openConnectionToHost: destHost port: destPort timeout: timeout.
+	socket := self newSocketStream.
 	^[
 		| serialized buffer len |
 		self flag: #todo. "Make sure the query is not marked as truncated!"
