@@ -62,6 +62,11 @@ PaleoDNSMessage >> answers [
 ]
 
 { #category : #'as yet unclassified' }
+PaleoDNSMessage >> authorities [
+	^auths
+]
+
+{ #category : #'as yet unclassified' }
 PaleoDNSMessage >> findOPTRecord [
 	additionals do: [:each |
 		(each isKindOf: PaleoRROpt) ifTrue: [ ^each ] ].
