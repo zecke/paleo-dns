@@ -18,17 +18,50 @@ PaleoRR class >> classIN [
 	^16r0001
 ]
 
+{ #category : #'as yet unclassified' }
+PaleoRR class >> parse: aReadStream [
+	^(self parseBase: aReadStream)
+		parseTTL: aReadStream;
+		parseRData: aReadStream;
+		yourself.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR class >> parseBase: aReadStream [
+	"Parses the RR header from the stream and returns the matching RR class
+	with the header parsed" 
+	| hdr |
+	"Get the"
+	hdr := PaleoRR new parseBase: aReadStream.
+	^(self typeFor: hdr rr_type) basicNew
+		readFromBase: hdr;
+		yourself.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR class >> typeFor: anInteger [ 
+	self subclassesDo: [:each |
+		each rrType = anInteger ifTrue: [ ^each ] ].
+	self flag: #todo. "Or just parse it into the generic one?"
+	^self error: 'Unimplemented RR type'
+]
+
 { #category : #initialization }
 PaleoRR >> initialize [
 	rr_class := rr_ttl := 0.
 ]
 
 { #category : #'as yet unclassified' }
-PaleoRR >> parseHeader: aReadStream [ 
+PaleoRR >> parseBase: aReadStream [
 	rr_name := self parseName: aReadStream.
 	rr_type := aReadStream uint16.
 	rr_class := aReadStream uint16.
-	rr_ttl := aReadStream uint32.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> parseHeader: aReadStream [
+	self parseBase: aReadStream.
+	self parseTTL: aReadStream.
 ]
 
 { #category : #'as yet unclassified' }
@@ -60,6 +93,22 @@ PaleoRR >> parseName: aReadStream [
 	^(names joinUsing: '.'), '.'
 ]
 
+{ #category : #parsing }
+PaleoRR >> parseRData: aReadStream [
+	^self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> parseTTL: aReadStream [
+	rr_ttl := aReadStream uint32.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> readFromBase: aPaleoRR [ 
+	rr_class := aPaleoRR rr_class.
+	rr_name := aPaleoRR rr_name.
+]
+
 { #category : #'as yet unclassified' }
 PaleoRR >> rr_class [
 	^ rr_class
@@ -88,6 +137,11 @@ PaleoRR >> rr_ttl [
 { #category : #'as yet unclassified' }
 PaleoRR >> rr_ttl: anInteger [ 
 	rr_ttl := anInteger
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> rr_type [
+	^ rr_type
 ]
 
 { #category : #'as yet unclassified' }

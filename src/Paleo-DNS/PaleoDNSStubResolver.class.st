@@ -1,6 +1,6 @@
 Class {
 	#name : #PaleoDNSStubResolver,
-	#superclass : #PaleoRR,
+	#superclass : #Object,
 	#instVars : [
 		'setting'
 	],

@@ -50,6 +50,11 @@ PaleoRROpt >> parseOptions: aReadStream [
 	"
 ]
 
+{ #category : #parsing }
+PaleoRROpt >> parseRData: aReadStream [
+	self parseOptions: aReadStream.
+]
+
 { #category : #'as yet unclassified' }
 PaleoRROpt >> rcode [
 	^rr_ttl

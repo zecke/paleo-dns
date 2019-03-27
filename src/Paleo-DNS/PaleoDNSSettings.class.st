@@ -5,9 +5,10 @@ TODO(zecke): Call it PaleoDnsStubSettings?
 "
 Class {
 	#name : #PaleoDNSSettings,
-	#superclass : #PaleoRR,
+	#superclass : #Object,
 	#instVars : [
-		'resolverAddresses'
+		'resolverAddresses',
+		'randomNumberGenerator'
 	],
 	#category : #'Paleo-DNS-Settings'
 }

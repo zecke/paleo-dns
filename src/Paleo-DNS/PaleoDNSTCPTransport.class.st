@@ -5,6 +5,6 @@ TODO(zecke): Actually implement it. If a DNS response is truncated we will retry
 "
 Class {
 	#name : #PaleoDNSTCPTransport,
-	#superclass : #PaleoRR,
+	#superclass : #Object,
 	#category : #'Paleo-DNS-Transport'
 }

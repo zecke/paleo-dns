@@ -31,6 +31,11 @@ PaleoRRA >> parseAddress: aReadStream [
 	rr_address := aReadStream next: 4.
 ]
 
+{ #category : #parsing }
+PaleoRRA >> parseRData: aReadStream [
+	self parseAddress: aReadStream.
+]
+
 { #category : #'as yet unclassified' }
 PaleoRRA >> rr_address [
 	^rr_address
