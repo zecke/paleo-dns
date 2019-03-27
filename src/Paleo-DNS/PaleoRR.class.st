@@ -42,8 +42,8 @@ PaleoRR class >> parseBase: aReadStream [
 PaleoRR class >> typeFor: anInteger [ 
 	self subclassesDo: [:each |
 		each rrType = anInteger ifTrue: [ ^each ] ].
-	self flag: #todo. "Or just parse it into the generic one?"
-	^self error: 'Unimplemented RR type'
+	self flag: #todo. "Or handle this somewhere else?"
+	^PaleoRRGeneric
 ]
 
 { #category : #initialization }
