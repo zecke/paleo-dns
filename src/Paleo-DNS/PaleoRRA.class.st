@@ -31,10 +31,10 @@ PaleoRRA >> initialize [
 
 { #category : #'as yet unclassified' }
 PaleoRRA >> parseAddress: aReadStream [ 
-	| len addr |
+	| len |
 	len := aReadStream uint16.
 	len = 4 ifFalse: [ ^self error: 'IPv4 address should be 4 bytes' ].
-	rr_address := aReadStream next: 4.
+	rr_address := (aReadStream next: 4) asSocketAddress
 ]
 
 { #category : #parsing }

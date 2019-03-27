@@ -16,7 +16,7 @@ PaleoRRATest >> test_decoding_success [
 	self assert: rra rr_name equals: 'www.google.com.'.
 	self assert: rra rr_class equals: PaleoRRA classIN.
 	self assert: rra rr_ttl equals: 175.
-	self assert: rra rr_address equals: #[216 58 197 100].
+	self assert: rra rr_address equals: #[216 58 197 100] asSocketAddress.
 ]
 
 { #category : #tests }
@@ -26,7 +26,7 @@ PaleoRRATest >> test_encoding_success [
 				rr_name: 'www.google.com.';
 				rr_class: PaleoRRA classIN;
 				rr_ttl: 175;
-				rr_address: #[216 58 197 100];
+				rr_address: #[216 58 197 100] asSocketAddress;
 				serialize.
 
 	self assert: data equals: #[3 119 119 119 6 103 111 111 103 108 101 3 99 111 109 0 0 1 0 1 0 0 0 175 0 4 216 58 197 100]
