@@ -36,3 +36,20 @@ PaleoDNSQueryTest >> testParse [
 	
 	self flag: #todo. "Do we have something like GMock to fuzzily compare objects?"
 ]
+
+{ #category : #tests }
+PaleoDNSQueryTest >> testSerialize [
+	| query data parsed |
+	query := PaleoDNSQuery new
+					transactionId: 16r5ad0;
+					recursionDesired: true;
+					truncated: false;
+					nonAuthenticatedData: false;
+					yourself.
+	query addQuestion: (PaleoRRA new rr_name: 'www.google.com.').
+	query addAdditional: PaleoRROpt new.
+	data := query serialize.
+
+	parsed := PaleoDNSQuery parse: data readStream.
+	self flag: #todo. "Test some attributes of the result"
+]

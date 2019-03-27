@@ -151,10 +151,15 @@ PaleoRR >> serialize [
 ]
 
 { #category : #'as yet unclassified' }
-PaleoRR >> serializeHeaderTo: aWriteStream [ 
+PaleoRR >> serializeBaseTo: aWriteStream [ 
 	self serializeNameTo: aWriteStream.
 	aWriteStream uint16: self class rrType.
 	aWriteStream uint16: rr_class.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoRR >> serializeHeaderTo: aWriteStream [ 
+	self serializeBaseTo: aWriteStream.
 	aWriteStream uint32: rr_ttl.
 ]
 

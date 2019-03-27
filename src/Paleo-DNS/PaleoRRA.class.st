@@ -24,6 +24,12 @@ PaleoRRA class >> rrType [
 ]
 
 { #category : #'as yet unclassified' }
+PaleoRRA >> initialize [
+	super initialize.
+	rr_class := self class classIN.
+]
+
+{ #category : #'as yet unclassified' }
 PaleoRRA >> parseAddress: aReadStream [ 
 	| len addr |
 	len := aReadStream uint16.

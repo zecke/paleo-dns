@@ -39,6 +39,13 @@ PaleoDNSQuery >> flagsFromUint16: anInteger [
 	nonAuthenticatedData := ((anInteger >> 4) & 2r1) = 1.
 ]
 
+{ #category : #initialization }
+PaleoDNSQuery >> initialize [
+	super initialize.
+	z := 0.
+	ad := false.
+]
+
 { #category : #'as yet unclassified' }
 PaleoDNSQuery >> isQuery [
 	^true

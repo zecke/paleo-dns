@@ -176,6 +176,12 @@ PaleoDNSMessage >> recursionDesired: aBoolean [
 	recursionDesired := aBoolean
 ]
 
+{ #category : #'as yet unclassified' }
+PaleoDNSMessage >> serialize [
+	^ByteArray streamContents: [:stream |
+		self serializeTo: stream].
+]
+
 { #category : #adding }
 PaleoDNSMessage >> serializeHeaderTo: aWriteStream [
 	aWriteStream
@@ -185,6 +191,15 @@ PaleoDNSMessage >> serializeHeaderTo: aWriteStream [
 		uint16: answers size;
 		uint16: auths size;
 		uint16: additionals size.
+]
+
+{ #category : #'as yet unclassified' }
+PaleoDNSMessage >> serializeTo: aWriteStream [ 
+	self serializeHeaderTo: aWriteStream.
+	questions do: [:each | each serializeBaseTo: aWriteStream ].
+	answers do: [:each | each serializeTo: aWriteStream ].
+	auths do: [:each | each serializeTo: aWriteStream ].
+	additionals do: [:each | each serializeTo: aWriteStream ].
 ]
 
 { #category : #'as yet unclassified' }
