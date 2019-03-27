@@ -151,6 +151,13 @@ PaleoRR >> serialize [
 ]
 
 { #category : #'as yet unclassified' }
+PaleoRR >> serializeBase [
+	^ByteArray streamContents: [:stream |
+		self serializeBaseTo: stream
+	]
+]
+
+{ #category : #'as yet unclassified' }
 PaleoRR >> serializeBaseTo: aWriteStream [ 
 	self serializeNameTo: aWriteStream.
 	aWriteStream uint16: self class rrType.
