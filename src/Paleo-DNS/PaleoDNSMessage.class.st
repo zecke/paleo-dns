@@ -57,6 +57,13 @@ PaleoDNSMessage >> additionals [
 ]
 
 { #category : #'as yet unclassified' }
+PaleoDNSMessage >> findOPTRecord [
+	additionals do: [:each |
+		(each isKindOf: PaleoRROpt) ifTrue: [ ^each ] ].
+	^nil
+]
+
+{ #category : #'as yet unclassified' }
 PaleoDNSMessage >> flagsAsUint16 [
 	^self subclassResponsibility
 	

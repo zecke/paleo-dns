@@ -7,6 +7,12 @@ Class {
 	#category : #'Paleo-DNS-Records'
 }
 
+{ #category : #'as yet unclassified' }
+PaleoRRGeneric class >> rrType [
+	"I don't have a native type"
+	^nil
+]
+
 { #category : #parsing }
 PaleoRRGeneric >> parseRData: aReadStream [
 	| len |
