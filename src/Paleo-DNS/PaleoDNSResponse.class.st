@@ -31,15 +31,16 @@ PaleoDNSResponse >> authoriativeServer: aBoolean [
 { #category : #accessing }
 PaleoDNSResponse >> flagsAsUint16 [
 	^
-		(1 << 15) | "This is a response"
-		(opcode << 11) |
-		(authoriativeServer asBit << 10) |
-		(truncated asBit << 9) |
-		(recursionDesired asBit << 8) |
-		(recursionAvailable asBit << 7) |
-		(z << 6) |
-		(answerAuthenticated asBit << 5) |
-		(nonAuthenticatedData asBit << 4) |
+		((((((((
+		(1 << 15) bitOr: "This is a response"
+		(opcode << 11)) bitOr:
+		(authoriativeServer asBit << 10)) bitOr:
+		(truncated asBit << 9)) bitOr:
+		(recursionDesired asBit << 8)) bitOr:
+		(recursionAvailable asBit << 7)) bitOr:
+		(z << 6)) bitOr:
+		(answerAuthenticated asBit << 5)) bitOr:
+		(nonAuthenticatedData asBit << 4)) bitOr:
 		(replyCode << 0)
 ]
 

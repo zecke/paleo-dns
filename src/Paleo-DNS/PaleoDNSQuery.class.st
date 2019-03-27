@@ -18,12 +18,13 @@ PaleoDNSQuery >> ad: aBoolean [
 { #category : #'as yet unclassified' }
 PaleoDNSQuery >> flagsAsUint16 [
 	^
-		(0 << 15) | "This is a request"
-		(opcode << 11) |
-		(truncated asBit << 9) |
-		(recursionDesired asBit << 8) |
-		(z << 6) |
-		(ad asBit << 5) |
+		(((((
+		(0 << 15) bitOr: "This is a request"
+		(opcode << 11)) bitOr:
+		(truncated asBit << 9)) bitOr:
+		(recursionDesired asBit << 8)) bitOr:
+		(z << 6)) bitOr:
+		(ad asBit << 5)) bitOr:
 		(nonAuthenticatedData asBit << 4)
 		
 ]
