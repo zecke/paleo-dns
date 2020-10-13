@@ -17,5 +17,12 @@ PaleoDNSStubResolver class >> initWith: aSetting [
 { #category : #'as yet unclassified' }
 PaleoDNSStubResolver >> resolve: aName type: anRR [
 	| qname |
-	qname := self prepareName: aName.
+	self flag: #TODO. "This should behave like a stub resolver. In the long term
+	we should:
+		* Prepare the query name
+		* Check the cache and use it if the TTL has not expired.
+		* Start with a UDP transport
+		* Verify the response (right qname, id's...)
+		* If truncated retry on TCP."
+	qname := self prepareName: aName
 ]
