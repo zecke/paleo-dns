@@ -30,14 +30,15 @@ PaleoDNSQuery >> flagsAsUint16 [
 ]
 
 { #category : #'as yet unclassified' }
-PaleoDNSQuery >> flagsFromUint16: anInteger [ 
-	(anInteger >> 15) = 0 ifFalse: [ ^self error: 'This is not a query' ].
-	opcode := (anInteger >> 11) & 2r1111.
+PaleoDNSQuery >> flagsFromUint16: anInteger [
+	anInteger >> 15 = 0
+		ifFalse: [ ^ PaleoDNSNotAQuery signal: 'This is not a query' ].
+	opcode := anInteger >> 11 & 2r1111.
 	truncated := ((anInteger >> 9) & 2r1) = 1.
 	recursionDesired := ((anInteger >> 8) & 2r1) = 1.
-	z := (anInteger >> 6) & 2r1.
+	z := anInteger >> 6 & 2r1.
 	ad := ((anInteger >> 5) & 2r1) = 1.
-	nonAuthenticatedData := ((anInteger >> 4) & 2r1) = 1.
+	nonAuthenticatedData := ((anInteger >> 4) & 2r1) = 1
 ]
 
 { #category : #initialization }
